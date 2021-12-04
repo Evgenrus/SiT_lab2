@@ -11,7 +11,6 @@ namespace LABA2.Models
         public string To { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        //TODO DATE
 
         public Email(string mailFrom, string rcptTo, 
             string from, string to, string subject, string body)
@@ -43,17 +42,17 @@ namespace LABA2.Models
             {
                 if (strings[i].Contains("Return"))
                 {
-                    MailFrom = strings[i].Substring(strings[i].IndexOf('<'), strings[i].Length-strings[i].IndexOf('<'));
+                    MailFrom = strings[i].Substring(strings[i].IndexOf("439-4@inbox.ru"), strings[i].Length-strings[i].IndexOf("439-4@inbox.ru"));
                 }
 
                 if (strings[i].Contains("From"))
                 {
-                    From = strings[i].Substring(strings[i].IndexOf('<'), strings[i].Length-strings[i].IndexOf('<'));
+                    From = strings[i].Substring(strings[i].IndexOf("439-4@inbox.ru"), strings[i].Length-strings[i].IndexOf("439-4@inbox.ru"));
                 }
 
                 if (strings[i].Contains("To"))
                 {
-                    To = strings[i].Substring(strings[i].IndexOf('<'), strings[i].Length-strings[i].IndexOf('<'));
+                    To = strings[i].Substring(strings[i].IndexOf("439-4@inbox.ru"), strings[i].Length-strings[i].IndexOf("439-4@inbox.ru"));
                     RcptTo = To;
                 }
 

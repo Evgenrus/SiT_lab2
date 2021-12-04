@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using LABA2.Models;
 using LABA2.Models.Statuses;
 using NLog;
@@ -19,8 +20,9 @@ namespace LABA2.Controllers
 
         public override void Auth(string login, string pass)
         {
-            var res = SendCommand("USER " + "439-4sit@mail.ru");
-            res = SendCommand("PASS " + "j7vrB8FGWzRAeSpa800D");
+            var res = SendCommand("USER " + login);
+            Thread.Sleep(1000);
+            res = SendCommand("PASS " + pass);
             Reader.ReadLine();
             //if (res.IsError())
             //{
@@ -50,10 +52,10 @@ namespace LABA2.Controllers
         {
             SendCommand("RETR " + number.ToString());
             var stat = Reader.ReadLine();
-            if (/*!Reader.ReadLine()*/stat.StartsWith("+OK"))
-            {
-                throw new NotImplementedException();
-            }
+            // if (/*!Reader.ReadLine()*/stat.StartsWith("+OK"))
+            // {
+            //     throw new NotImplementedException();
+            // }
             var rawMail = new StringBuilder();
             string s;
             do
