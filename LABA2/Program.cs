@@ -16,18 +16,42 @@ namespace LABA2
         
         static void Main(string[] args)
         {
-            PopReciever popReciever = new PopReciever("pop.mail.ru", 995);
-            popReciever.Auth("439-4@inbox.ru", "JtC8RKzMbpPhh3mbAEY4");
-            int mailsnum = popReciever.CountEmails();
-            var mail = popReciever.RecieveOne(mailsnum);
+            SocketNegotiator negotiator = new SocketNegotiator("127.0.0.1", 9000);
+            negotiator.listen();
 
-            var newMail = new Email("439-4@inbox.ru", "439-4@inbox.ru", "439-4@inbox.ru", "439-4@inbox.ru",
-                "FGHH", "KEK");
-            
-            SmtpSender sender = new SmtpSender("smtp.mail.ru", 465);
-            sender.Connect();
-            sender.Auth("439-4@inbox.ru","JtC8RKzMbpPhh3mbAEY4");
-            sender.SendMail(newMail);
+            while (true)
+            {
+                string msg = "";
+                msg = negotiator.Recieve().Trim();
+                if (msg == "Recieve")
+                {
+                    PopReciever popReciever = new PopReciever("pop.mail.ru", 995);
+                    popReciever.Auth("439-4@inbox.ru", "JtC8RKzMbpPhh3mbAEY4");
+                    int mailsnum = popReciever.CountEmails();
+                    var mail = popReciever.RecieveOne(mailsnum);
+                    negotiator.Send("1");
+                }
+
+                var newMail = new Email("439-4@inbox.ru", "439-4@inbox.ru", "439-4@inbox.ru", "439-4@inbox.ru",
+                    "FGHH", "KEK");
+                
+                if (msg == "Send MSG")
+                {
+                    SmtpSender sender = new SmtpSender("smtp.mail.ru", 465);
+                    sender.Connect();
+                    sender.Auth("439-4@inbox.ru", "JtC8RKzMbpPhh3mbAEY4");
+                    sender.SendMail(newMail);
+                    negotiator.Send("2");
+                }
+
+                if (msg == "Quit App")
+                {
+                    negotiator.Send("0");
+                    break;
+                }
+            }
+
+            Console.WriteLine("End");
         }
     }
 }

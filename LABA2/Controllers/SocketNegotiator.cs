@@ -12,11 +12,12 @@ public class SocketNegotiator
 
     public SocketNegotiator(string host, int port)
     {
-        IpEndPoint = new IPEndPoint(IPAddress.Parse(host), port);
+        //var ip = Dns.GetHostEntry("localhost").AddressList[0];
+        IpEndPoint = new IPEndPoint(IPAddress.Any, port);
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
     }
 
-    private void listen()
+    public void listen()
     {
         socket.Bind(IpEndPoint);
         socket.Listen(10);
@@ -26,11 +27,9 @@ public class SocketNegotiator
     public string Recieve()
     {
         byte[] data = new byte[256];
-
-        this.listen();
         int recieved = listener.Receive(data);
 
-        return Encoding.UTF8.GetString(data);
+        return Encoding.UTF8.GetString(data).Substring(0, recieved);
     }
 
     public void Send(string msg)

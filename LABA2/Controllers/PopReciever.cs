@@ -21,7 +21,6 @@ namespace LABA2.Controllers
         public override void Auth(string login, string pass)
         {
             var res = SendCommand("USER " + login);
-            Thread.Sleep(1000);
             res = SendCommand("PASS " + pass);
             Reader.ReadLine();
             //if (res.IsError())
